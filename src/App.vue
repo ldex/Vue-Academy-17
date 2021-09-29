@@ -1,9 +1,17 @@
 <template>
-  <product-list :products="products"></product-list>
+    <section v-if="error">
+      {{error.message}}
+    </section>
+    <section v-else>
+      <div v-if="loading">
+        <h2 class="loading">Loading products</h2>
+      </div>
+      <product-list v-else :products="products"></product-list>
+    </section>
 </template>
 
 <script>
-import axios from 'axios'
+import ProductService from '@/services/ProductService.js';
 import ProductList from "@/components/ProductList.vue";
 
 export default {
@@ -13,18 +21,22 @@ export default {
   },
   data() {
     return {
-      products: []
+      products: [],
+      error: null,
+      loading: false
     };
   },
   created () {
-    axios
-        .get('http://storerestservice.azurewebsites.net/api/products/')
+    this.loading = true;
+    ProductService
+        .getProducts()
         .then(response => {
           this.products = response.data
         })
         .catch(error => {
-          console.log('There was an error getting products from server: ', error.response)
-        });
+          this.error = error;
+        })
+       .finally(() => this.loading = false);
   },
 };
 </script>
