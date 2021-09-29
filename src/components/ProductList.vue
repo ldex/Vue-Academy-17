@@ -4,7 +4,8 @@
         <ul class="products">
             <li v-for="product in products" v-bind:key="product.id"
                 v-bind:class='{ discontinued: product.discontinued, selected: selectedProduct === product }'
-                @click="selectedProduct = product">
+                @click="selectedProduct = product"
+                :title="JSON.stringify(product)">
                 <span class="name">{{ product.name }}</span>
                 <span class="description">{{ product.description }}</span>
                 <span class="price">{{ product.price }}</span>
