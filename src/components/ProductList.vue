@@ -99,7 +99,20 @@ import ProductDetails from '@/components/ProductDetails.vue'
             this.pageNumber--;
             this.selectedProduct = null;
           }
-        }
+        },
+        watch: {
+          // reset pagination when filtering
+          filterName() {
+            this.pageNumber = 1;
+          },
+          // reset pagination when sorting
+          sortName() {
+            this.pageNumber = 1;
+          },
+          sortDir() {
+            this.pageNumber = 1;
+          }
+        },
     }
 </script>
 
