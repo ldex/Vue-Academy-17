@@ -19,9 +19,9 @@
         @click="onSelect(product)"
         :title="JSON.stringify(product)"
       >
-        <span class="name">{{ product.name }}</span>
-        <span class="description">{{ product.description }}</span>
-        <span class="price">{{ product.price }}</span>
+        <slot :product="product">
+          {{ product.name }}
+        </slot>
       </li>
     </ul>
     <div class="right">
