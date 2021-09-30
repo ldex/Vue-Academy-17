@@ -1,55 +1,58 @@
 <template>
-<div>
+  <div>
     <section v-if="error">
-        {{error.message}}
+      {{ error.message }}
     </section>
     <section v-else>
-    <div v-if="loading">
+      <div v-if="loading">
         <h2 class="loading">Loading products...</h2>
-    </div>
-    <product-list v-else :products="products" :page-size="5">
-      <template v-slot="slotProps">
-        <span>{{ slotProps.product.name }}</span>
-        <span>({{ slotProps.product.price }}$)</span>
-      </template>
-    </product-list>
+      </div>
+      <product-list v-else :products="products" :page-size="5">
+        <template v-slot="slotProps">
+          <span>{{ slotProps.product.name }}</span>
+          <span>({{ slotProps.product.price }}$)</span>
+        </template>
+      </product-list>
     </section>
-</div>
+  </div>
 </template>
 
 <script>
 import ProductList from '@/components/ProductList.vue';
-import ProductService from '@/services/ProductService.js';
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    ProductList
+    ProductList,
   },
-  errorCaptured: function(error) {
-      console.error('Error in component: ', error.message);
+  errorCaptured: function (error) {
+    console.error("Error in component: ", error.message);
   },
   data() {
     return {
-      products: [],
       error: null,
-      loading: false
-    }
+    };
   },
-  created () {
-    this.loading = true;
-    ProductService.getProducts()
-      .then(response => {
-        this.products = response.data;
-      })
-      .catch(error => {
+  computed: {
+    products() {
+      return this.$store.state.products;
+    },
+    loading() {
+      return this.$store.state.isLoading;
+    },
+  },
+  methods: {
+    fetchProducts() {
+      this.$store.dispatch("fetchProducts").catch((error) => {
         this.error = error;
-      })
-      .finally(() => this.loading = false);
+      });
+    },
   },
-}
+  created() {
+    this.fetchProducts();
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>
