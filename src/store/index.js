@@ -30,13 +30,9 @@ export default createStore({
     }
   },
   actions: {
-    fetchProducts({commit}) {
-      commit('SET_LOADING_STATUS');
-      return ProductService.getProducts()
-        .then(response => {
-          commit('SET_PRODUCTS', response.data);
-        })
-        .finally(() => commit('SET_LOADING_STATUS'));
+    async fetchProducts({commit}) {
+      const response = await ProductService.getProducts()
+      commit('SET_PRODUCTS', response.data);
     },
     addProduct({commit}, newProduct) {
       return ProductService.insertProduct(newProduct)
