@@ -19,6 +19,7 @@
 
 <script>
 import ProductList from '@/components/ProductList.vue';
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: "app",
@@ -34,19 +35,11 @@ export default {
     };
   },
   computed: {
-    products() {
-      return this.$store.state.products;
-    },
-    loading() {
-      return this.$store.state.isLoading;
-    },
+    ...mapState(['products']), // map `this.products` to `this.$store.state.products`
+    ...mapState({loading:'isLoading'}) // map `this.loading` to `this.$store.state.isLoading`
   },
   methods: {
-    fetchProducts() {
-      this.$store.dispatch("fetchProducts").catch((error) => {
-        this.error = error;
-      });
-    },
+    ...mapActions(['fetchProducts']) // map `this.fetchProducts()` to `this.$store.dispatch('fetchProducts')`
   },
   created() {
     this.fetchProducts();

@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import ProductService from "@/services/ProductService.js";
 import { required, minLength, maxLength, between } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 
@@ -142,7 +141,7 @@ export default {
           fixedPrice: this.product.fixedPrice
         };
         console.log(newProduct);
-        ProductService.insertProduct(newProduct)
+        this.$store.dispatch('addProduct', newProduct)
           .then(() => {
             this.$router.push({ name: "products" });
           })
