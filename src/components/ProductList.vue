@@ -24,6 +24,9 @@
         <span class="price">{{ product.price }}</span>
       </li>
     </ul>
+    <div class="right">
+      <router-link to="/product/insert">Create new product...</router-link>
+    </div>
     <button @click="prevPage" :disabled="pageNumber === 1">
       &lt; Previous
     </button>
@@ -36,8 +39,7 @@
 
 <script>
 export default {
-  components: {
-  },
+  components: {},
   props: {
     products: {
       type: Array,
